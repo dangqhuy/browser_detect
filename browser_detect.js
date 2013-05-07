@@ -1,3 +1,4 @@
+// browser detect
 var BrowserDetect = {
         init: function() {
 		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
