@@ -1,8 +1,8 @@
 // browser detect
 var BrowserDetect = {
-        init: function() {
+        init: function(userAgent, appVersion) {
 		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
-		this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
+		this.version = this.searchVersion(userAgent) || this.searchVersion(appVersion) || "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
 	},
 	searchString: function(data) {
@@ -11,8 +11,12 @@ var BrowserDetect = {
 			var dataProp = data[i].prop;
 			this.versionSearchString = data[i].versionSearch || data[i].identity;
 			if (dataString) {
-				if (dataString.indexOf(data[i].subString) != -1) return data[i].identity;
-			} else if (dataProp) return data[i].identity;
+              if (dataString.indexOf(data[i].subString) != -1) {
+                return data[i].identity;
+              }
+			} else if (dataProp) {
+              return data[i].identity;
+            }
 		}
 	},
 	searchVersion: function(dataString) {
@@ -64,6 +68,15 @@ var BrowserDetect = {
 		identity: "Explorer",
 		versionSearch: "MSIE"
 	}, {
+        string: navigator.userAgent,
+        subString: "Trident",
+		identity: "Explorer",
+		versionSearch: "rv"
+     }, {
+        string: navigator.userAgent,
+		subString: "Edge",
+		identity: "Edge"
+	}, {
 		string: navigator.userAgent,
 		subString: "Gecko",
 		identity: "Mozilla",
@@ -93,7 +106,7 @@ var BrowserDetect = {
 	}]
 
 };
-BrowserDetect.init();
+BrowserDetect.init(navigator.userAgent, navigator.appVersion);
 
 ///// mobile
 var isMobile = {
